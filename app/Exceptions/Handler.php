@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Library\APIProblem\Handlers\APIProblemsExceptionHandler;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class Handler extends APIProblemsExceptionHandler
 {
     /**
      * A list of exception types with their corresponding custom log levels.
