@@ -11,17 +11,17 @@ use Throwable;
 
 class APIProblemsExceptionHandler extends Handler
 {
-    private const PROBLEMS_CONFIG_FILE = "";
+    private const API_PROBLEMS_CONFIG_FILE = "api-problems";
+
     /**
      * APIProblemsExceptionHandler constructor.
      * @param Container $container
-     * @param APIProblemsConfigurator $APIProblemsConfigurator
      */
-    public function __construct(Container $container, APIProblemsConfigurator $APIProblemsConfigurator)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
 
-        if(config('api-problems.report-') === false){
+        if (config(self::API_PROBLEMS_CONFIG_FILE . '.report-renderable-exception') === false) {
             $this->dontReport[] = RenderableException::class;
         }
     }
@@ -35,18 +35,18 @@ class APIProblemsExceptionHandler extends Handler
      */
     public function render($request, Throwable $exception)
     {
-        if($request->wantsJson()){
-        $exceptionToConvert = config(APIProblemsServiceProvider::PROBLEMS_CONFIG_FILE.'.converter') ?? [];
+        if ($request->wantsJson()) {
+            $exceptionToConvert = config(self::API_PROBLEMS_CONFIG_FILE . '.converter') ?? [];
 
-        // Transformation des Exceptions en Problems (si existant)
-        if(isset($exceptionToConvert[$this->getExceptionClassName($exception)])){
-            throw new $exceptionToConvert[$this->getExceptionClassName($exception)]($exception);
-        }
+            // Transformation des Exceptions en Problems (si existant)
+            if (isset($exceptionToConvert[$this->getExceptionClassName($exception)])) {
+                throw new $exceptionToConvert[$this->getExceptionClassName($exception)]($exception);
+            }
 
-        // Utilisation de la méthode render permettant de renvoyer l'exception
-        if($exception instanceof RenderableException){
-            return $exception->render();
-        }
+            // Utilisation de la méthode render permettant de renvoyer l'exception
+            if ($exception instanceof RenderableException) {
+                return $exception->render();
+            }
 
         }
         return parent::render($request, $exception);

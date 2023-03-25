@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class APIProblemsException extends Exception implements RenderableException
 {
+    private const API_PROBLEMS_CONFIG_FILE = "api-problems";
+
     /**
      * Instance de ApiProblem à traiter
      * @var ApiProblem
@@ -47,10 +49,10 @@ abstract class APIProblemsException extends Exception implements RenderableExcep
      */
     final protected function loadProblemFromConfig(): void
     {
-        $configKey = APIProblemsServiceProvider::PROBLEMS_CONFIG_FILE;
+        $configKey = self::API_PROBLEMS_CONFIG_FILE;
 
         $problem = config($configKey . '.problems.' . static::class) ?? config($configKey . '.default') ?? [];
-        $this->apiProblem->setStatus($problem['status'] ?? 500);
+        $this->apiProblem->setStatus($problem['status']->value ?? 500);
         $this->apiProblem->setType($problem['type'] ?? '');
         $this->apiProblem->setTitle($problem['title'] ?? '');
     }
@@ -61,7 +63,7 @@ abstract class APIProblemsException extends Exception implements RenderableExcep
      */
     final public function render(): Response
     {
-        if (!empty($this->getDetail())){
+        if (!empty($this->getDetail())) {
             $this->apiProblem->setDetail($this->getDetail());
         }
 
@@ -101,7 +103,7 @@ abstract class APIProblemsException extends Exception implements RenderableExcep
      */
     private function setCustomAttributesToApiProblem(): void
     {
-        foreach ($this->customAttributes as $name => $value){
+        foreach ($this->customAttributes as $name => $value) {
             $this->apiProblem[$name] = $value;
         }
     }

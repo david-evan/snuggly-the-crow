@@ -16,7 +16,7 @@ class RequestValidationException extends APIProblemsException
         parent::__construct();
 
         $invalidParams = [];
-        foreach ($validator->errors()->messages() as $paramName => $failedReason){
+        foreach ($validator->errors()->messages() as $paramName => $failedReason) {
             $invalidParams[] = ['name' => $paramName, 'reasons' => $failedReason];
         }
 

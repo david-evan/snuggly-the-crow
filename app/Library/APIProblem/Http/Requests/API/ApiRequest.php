@@ -15,6 +15,15 @@ use Illuminate\Foundation\Http\FormRequest;
 abstract class ApiRequest extends FormRequest
 {
     /**
+     * Force la requête à être traitée comme une requête JSON
+     * @return bool
+     */
+    public function wantsJson(): bool
+    {
+        return true;
+    }
+
+    /**
      * Comportement en cas d'échec de validation
      * @param Validator $validator
      * @throws RequestValidationException
@@ -22,14 +31,5 @@ abstract class ApiRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         throw new RequestValidationException($validator);
-    }
-
-    /**
-     * Force la requête à être traitée comme une requête JSON
-     * @return bool
-     */
-    public function wantsJson() : bool
-    {
-        return true;
     }
 }

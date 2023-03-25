@@ -16,5 +16,5 @@ interface RenderableException
      * Assure le rendu de l'erreur - Doit retourner une instance de Response
      * @return Response
      */
-    public function render() :Response;
+    public function render(): Response;
 }

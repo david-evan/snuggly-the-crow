@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Library\APIProblem\Exceptions\Problems\RequestValidationException;
 use Illuminate\Contracts\Validation\Validator;
-use P24Packages\LaravelAPIProblems\Exceptions\Problems\RequestValidationException;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * APIRequest Base
@@ -13,16 +14,6 @@ use P24Packages\LaravelAPIProblems\Exceptions\Problems\RequestValidationExceptio
 abstract class ApiRequest extends FormRequest
 {
 
-    /**
-     * Comportement en cas d'échec de validation
-     * @param Validator $validator
-     * @throws RequestValidationException
-     */
-    protected function failedValidation(Validator $validator): void
-    {
-        throw new RequestValidationException($validator);
-    }
-
     public function wantsJson()
     {
         return true;
@@ -31,5 +22,15 @@ abstract class ApiRequest extends FormRequest
     public function expectsJson()
     {
         return true;
+    }
+
+    /**
+     * Comportement en cas d'échec de validation
+     * @param Validator $validator
+     * @throws RequestValidationException
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        throw new RequestValidationException($validator);
     }
 }

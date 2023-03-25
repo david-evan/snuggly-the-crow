@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use App\Library\APIProblem\Handlers\APIProblemsExceptionHandler;
-use Throwable;
 
 class Handler extends APIProblemsExceptionHandler
 {
@@ -41,8 +40,6 @@ class Handler extends APIProblemsExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+
     }
 }

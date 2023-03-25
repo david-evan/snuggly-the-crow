@@ -5,7 +5,7 @@ namespace App\Library\SDK\Definitions;
 /**
  * Http Status code definition liste
  */
-enum HttpCode : int
+enum HttpCode: int
 {
     case HTTP_CONTINUE = 100;
     case HTTP_SWITCHING_PROTOCOLS = 101;

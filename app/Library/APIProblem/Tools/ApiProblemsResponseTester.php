@@ -22,15 +22,26 @@ use App\Library\APIProblem\Exceptions\Problems\RouteNotFoundException;
 trait ApiProblemsResponseTester
 {
     /**
+     * Test que la réponse fournie est bien conforme au "problem"
+     * RequestValidation
+     * @param string $jsonResponse
+     */
+    protected function testRequestValidationResponse(string $jsonResponse): void
+    {
+        $testedResponse = $this->testGenericApiProblemDataStructure(RequestValidationException::class, $jsonResponse);
+        $this->assertArrayHasKey('invalid-params', $testedResponse);
+    }
+
+    /**
      * Test générique de la structure du json "APIProblem"
      * @param string $problemClass
      * @param string $jsonResponse
      * @return array
      */
-    protected function testGenericApiProblemDataStructure(string $problemClass, string $jsonResponse) : array
+    protected function testGenericApiProblemDataStructure(string $problemClass, string $jsonResponse): array
     {
         // Configuration du "problem"
-        $problemConfig = config('api-problems.problems.'.$problemClass);
+        $problemConfig = config('api-problems.problems.' . $problemClass);
 
         // Préparation des données
         $responseData = json_decode($jsonResponse, true);
@@ -46,21 +57,10 @@ trait ApiProblemsResponseTester
 
     /**
      * Test que la réponse fournie est bien conforme au "problem"
-     * RequestValidation
-     * @param string $jsonResponse
-     */
-    protected function testRequestValidationResponse(string $jsonResponse) : void
-    {
-        $testedResponse = $this->testGenericApiProblemDataStructure(RequestValidationException::class, $jsonResponse);
-        $this->assertArrayHasKey('invalid-params', $testedResponse);
-    }
-
-    /**
-     * Test que la réponse fournie est bien conforme au "problem"
      * InvalidAPIKey
      * @param string $jsonResponse
      */
-    protected function testInvalidApiKeysResponse(string $jsonResponse) : void
+    protected function testInvalidApiKeysResponse(string $jsonResponse): void
     {
         $testedResponse = $this->testGenericApiProblemDataStructure(InvalidAPIKeysException::class, $jsonResponse);
         $this->assertArrayHasKey('detail', $testedResponse);
@@ -71,7 +71,7 @@ trait ApiProblemsResponseTester
      * ResourceNotFound
      * @param string $jsonResponse
      */
-    protected function testResourceNotFoundResponse(string $jsonResponse) : void
+    protected function testResourceNotFoundResponse(string $jsonResponse): void
     {
         $testedResponse = $this->testGenericApiProblemDataStructure(ResourceNotFoundException::class, $jsonResponse);
         $this->assertArrayHasKey('detail', $testedResponse);
@@ -82,7 +82,7 @@ trait ApiProblemsResponseTester
      * RouteNotFound
      * @param string $jsonResponse
      */
-    protected function testRouteNotFoundResponse(string $jsonResponse) : void
+    protected function testRouteNotFoundResponse(string $jsonResponse): void
     {
         $testedResponse = $this->testGenericApiProblemDataStructure(RouteNotFoundException::class, $jsonResponse);
         $this->assertArrayHasKey('detail', $testedResponse);
@@ -93,7 +93,7 @@ trait ApiProblemsResponseTester
      * MethodNotAllowed
      * @param string $jsonResponse
      */
-    protected function testMethodNotAllowedResponse(string $jsonResponse) : void
+    protected function testMethodNotAllowedResponse(string $jsonResponse): void
     {
         $testedResponse = $this->testGenericApiProblemDataStructure(MethodNotAllowedException::class, $jsonResponse);
         $this->assertArrayHasKey('detail', $testedResponse);
