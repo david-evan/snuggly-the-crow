@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Requests\API;
+
+namespace App\Library\APIProblem\Http\Requests\API;
+
 
 use App\Library\APIProblem\Exceptions\Problems\RequestValidationException;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,18 +10,15 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * APIRequest Base
- * Class ApiRequest
  * @package App\Http\Requests
  */
 abstract class ApiRequest extends FormRequest
 {
-
-    public function wantsJson()
-    {
-        return true;
-    }
-
-    public function expectsJson()
+    /**
+     * Force la requête à être traitée comme une requête JSON
+     * @return bool
+     */
+    public function wantsJson(): bool
     {
         return true;
     }

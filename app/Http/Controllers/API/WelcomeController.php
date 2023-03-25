@@ -20,7 +20,7 @@ class WelcomeController extends APIController
             $routes[$route->getName()] = $route->uri();
         }
 
-        $routes = array_filter($routes, fn($v) => strpos($v, '_ignition') === false  );
+        $routes = array_filter($routes, fn($v) => strpos($v, '_ignition') === false);
 
         return response()->json([
             'routes' => $routes
