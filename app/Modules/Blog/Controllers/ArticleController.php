@@ -4,17 +4,23 @@ namespace App\Modules\Blog\Controllers;
 
 use App\Library\APIProblem\Exceptions\Problems\BadRequestException;
 use App\Library\SDK\Definitions\HttpCode;
+use App\Modules\Blog\Requests\GetArticles;
 use App\Modules\Blog\Requests\StoreArticleRequest;
 use App\Modules\Blog\Requests\UpdateArticleRequest;
 use App\Modules\Blog\Resources\JSON\ArticleResource;
 use App\Modules\Common\Controllers\BaseAPIController;
 use Domain\Blog\Entities\Article;
 use Domain\Blog\Services\Interfaces\ArticleService;
+use Domain\Blog\ValueObjects\Status;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
 class ArticleController extends BaseAPIController
 {
+    // Constantes liées à la pagination des résultats
+    private const MAX_RESULT_PER_PAGE = 100;
+    private const DEFAULT_PER_PAGE_RESULT = 20;
+
     public function __construct(
         protected ArticleService $articleService
     ) {}
@@ -23,9 +29,24 @@ class ArticleController extends BaseAPIController
      * @GET : articles/
      * Retourne la liste des articles
      */
-    public function index() : AnonymousResourceCollection
+    public function index(GetArticles $request) : AnonymousResourceCollection
     {
-        return ArticleResource::collection($this->articleService->findAll());
+        $size = $request->validated()['perPage'] ?? null;
+        $status = $request->validated()['status'] ?? null;
+
+        $articlesPerPage = (int) min($size ?? self::DEFAULT_PER_PAGE_RESULT,self::MAX_RESULT_PER_PAGE);
+
+        $paginator = $this->articleService->findAll($articlesPerPage, Status::tryFrom($status));
+
+        if ($size) {
+            $paginator->appends('perPage', $articlesPerPage);
+        }
+
+        if ($status) {
+            $paginator->appends('status', $status);
+        }
+
+        return ArticleResource::collection($paginator);
     }
 
     /**

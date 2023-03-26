@@ -7,7 +7,7 @@ use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
 use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;
 use Domain\Blog\Services\Interfaces\ArticleService;
 use Domain\Blog\ValueObjects\Status;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class ArticleServiceImpl implements ArticleService
 {
@@ -21,9 +21,14 @@ class ArticleServiceImpl implements ArticleService
         return $article;
     }
 
-    public function findAll(): Collection
+    public function findAll(int $limitPerPage, ?Status $status = null): Paginator
     {
-        return Article::all();
+        $articles = Article::query();
+
+        if (!empty($status)) {
+            $articles->where('status', $status);
+        }
+        return $articles->paginate($limitPerPage);
     }
 
     public function updateArticle(Article $futurArticle, Article $articleToUpdate): Article

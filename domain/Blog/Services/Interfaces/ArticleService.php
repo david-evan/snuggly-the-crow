@@ -5,7 +5,8 @@ namespace Domain\Blog\Services\Interfaces;
 use Domain\Blog\Entities\Article;
 use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
 use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;
-use Illuminate\Database\Eloquent\Collection;
+use Domain\Blog\ValueObjects\Status;
+use Illuminate\Contracts\Pagination\Paginator;
 
 interface ArticleService
 {
@@ -17,9 +18,11 @@ interface ArticleService
     public function saveArticle(Article $article): Article;
 
     /**
-     * @return Collection
+     * @param int $limitPerPage - Nombre d'articles à retourner par page
+     * @param Status|null $status
+     * @return Paginator
      */
-    public function findAll(): Collection;
+    public function findAll(int $limitPerPage, ?Status $status): Paginator;
 
     /**
      * @param Article $futurArticle
