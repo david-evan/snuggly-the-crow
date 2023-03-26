@@ -20,7 +20,7 @@ class WelcomeController extends BaseAPIController
         $healthcheck = 'OK';
         $routes = [];
         foreach ($router->getRoutes() as $route) {
-            $routes[$route->getName()] = $route->uri();
+            $routes[$route->getName() .' ('.implode(', ', $route->methods()).')'] = $route->uri();
         }
 
         $routes = array_filter($routes, fn($v) => strpos($v, '_ignition') === false);

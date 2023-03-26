@@ -2,7 +2,6 @@
 
 namespace Domain\Blog\Services\Interfaces;
 
-use App\Library\SDK\Collections\TypedCollection;
 use Domain\Blog\Entities\Article;
 use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
 use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;

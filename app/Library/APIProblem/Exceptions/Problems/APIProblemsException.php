@@ -52,7 +52,7 @@ abstract class APIProblemsException extends Exception implements RenderableExcep
         $configKey = self::API_PROBLEMS_CONFIG_FILE;
 
         $problem = config($configKey . '.problems.' . static::class) ?? config($configKey . '.default') ?? [];
-        $this->apiProblem->setStatus($problem['status']->value ?? 500);
+        $this->apiProblem->setStatus($problem['status'] ?? 500);
         $this->apiProblem->setType($problem['type'] ?? '');
         $this->apiProblem->setTitle($problem['title'] ?? '');
     }
