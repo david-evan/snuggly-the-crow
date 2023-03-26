@@ -22,7 +22,7 @@ class UserServiceImpl implements UserService
     {
         try {
             /** @var User $user */
-            $user = User::whereUsernameIs($username)->firstOrFail();
+            $user = User::withUsername($username)->firstOrFail();
         } catch (ModelNotFoundException $exception) {
             throw new BadUserCredentialsException();
         }
@@ -53,5 +53,14 @@ class UserServiceImpl implements UserService
     public function delete(User $user): void
     {
         $user->delete();
+    }
+
+    /**
+     * @param string $apiKey
+     * @return User|null
+     */
+    public function findUserFromAPIKey(string $apiKey): ?User
+    {
+        return User::withApiKey($apiKey)->first();
     }
 }

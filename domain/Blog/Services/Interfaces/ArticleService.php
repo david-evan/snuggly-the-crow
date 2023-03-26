@@ -6,6 +6,7 @@ use Domain\Blog\Entities\Article;
 use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
 use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;
 use Domain\Blog\ValueObjects\Status;
+use Domain\Users\Entities\User;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,10 +14,11 @@ interface ArticleService
 {
     /**
      * @param Article $article
+     * @param User $user
      * @return Article
-     * @throws  \InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function saveArticle(Article $article): Article;
+    public function createArticleForUser(Article $article, User $user): Article;
 
     /**
      * @param int $limitPerPage - Nombre d'articles à retourner par page

@@ -3,13 +3,13 @@
 
 namespace App\Library\APIProblem\Exceptions\Problems;
 
-class UnauthenticatedUserException extends APIProblemsException
+class UnauthenticatedAPIUserException extends APIProblemsException
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->setDetail('Cannot authenticate current API end-user using OIDC');
+        $this->setDetail('Cannot authenticate current API user by API Key');
     }
 
 

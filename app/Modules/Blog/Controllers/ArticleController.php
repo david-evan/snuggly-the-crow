@@ -13,6 +13,7 @@ use App\Modules\Common\Controllers\BaseAPIController;
 use Domain\Blog\Entities\Article;
 use Domain\Blog\Services\Interfaces\ArticleService;
 use Domain\Blog\ValueObjects\Status;
+use Domain\Common\Services\Interfaces\AuthenticationService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -23,7 +24,8 @@ class ArticleController extends BaseAPIController
     private const DEFAULT_PER_PAGE_RESULT = 20;
 
     public function __construct(
-        protected ArticleService $articleService
+        protected ArticleService $articleService,
+        protected AuthenticationService $authenticationService
     ){}
 
     /**
@@ -78,8 +80,10 @@ class ArticleController extends BaseAPIController
             throw new BadRequestException($exception->getMessage());
         }
 
+        $user = $this->authenticationService->getAuthenticatedUserOrFail();
+
         return new ArticleResource(
-            $this->articleService->saveArticle($article)
+            $this->articleService->createArticleForUser($article, $user)
         );
     }
 

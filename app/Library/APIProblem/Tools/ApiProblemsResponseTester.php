@@ -3,7 +3,6 @@
 
 namespace App\Library\APIProblem\Tools;
 
-use App\Library\APIProblem\Exceptions\Problems\InvalidAPIKeysException;
 use App\Library\APIProblem\Exceptions\Problems\MethodNotAllowedException;
 use App\Library\APIProblem\Exceptions\Problems\RequestValidationException;
 use App\Library\APIProblem\Exceptions\Problems\ResourceNotFoundException;
@@ -53,17 +52,6 @@ trait ApiProblemsResponseTester
         $this->assertIsInt($responseData['status'] ?? null);
 
         return $responseData;
-    }
-
-    /**
-     * Test que la réponse fournie est bien conforme au "problem"
-     * InvalidAPIKey
-     * @param string $jsonResponse
-     */
-    protected function testInvalidApiKeysResponse(string $jsonResponse): void
-    {
-        $testedResponse = $this->testGenericApiProblemDataStructure(InvalidAPIKeysException::class, $jsonResponse);
-        $this->assertArrayHasKey('detail', $testedResponse);
     }
 
     /**

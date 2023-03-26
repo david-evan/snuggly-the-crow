@@ -3,12 +3,13 @@
 namespace Domain\Users\Entities;
 
 use Carbon\Carbon;
+use Domain\Blog\Entities\Article;
 use Domain\Common\Entities\BaseEntity;
 use Helpers\StringUtils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
@@ -25,7 +26,8 @@ use Ramsey\Uuid\Uuid;
  * @property \DateTime $created_at
  * @property \DateTime $deleted_at
  *
- * @method static Builder whereUsernameIs(string $username)
+ * @method static Builder withUsername(string $username)
+ * @method static Builder withApiKey(string $apiKey)
  */
 class User extends BaseEntity
 {
@@ -56,11 +58,30 @@ class User extends BaseEntity
         parent::__construct($attributes);
     }
 
+    /* ------------ ELOQUENT RELATIONSHIPS  ------------ */
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    /* ------------ ELOQUENT SCOPES  ------------ */
+
+    public function scopeWithUsername($query, string $username)
+    {
+        return $query->where('username', $username);
+    }
+
+    public function scopeWithApiKey($query, string $apiKey)
+    {
+        return $query->where('api_key', $apiKey);
+    }
+
     /* ------------ HELPERS  ------------ */
 
     /**
      * Met à jour la date de connexion de l'utilisateur et génère une nouvelle clef API
-     * @return void
+     * @return User
      */
     public function updateLastLoginAndGenerateNewApiKey(): self
     {
@@ -70,12 +91,12 @@ class User extends BaseEntity
         return $this;
     }
 
-    public function scopeWhereUsernameIs($query, string $username)
+    public function getHashedPassword(string $password): string
     {
-        return $query->where('username', $username);
+        return hash(self::PASSWORD_HASH_ALGO, $password);
     }
 
-    /* ------------ ELOQUENT SCOPES  ------------ */
+    /* ------------ ACCESSOR / MUTATOR ------------ */
 
     protected function username(): Attribute
     {
@@ -92,8 +113,6 @@ class User extends BaseEntity
         );
     }
 
-    /* ------------ ACCESSOR / MUTATOR ------------ */
-
     protected function password(): Attribute
     {
         return Attribute::make(
@@ -107,11 +126,6 @@ class User extends BaseEntity
                 return $this->getHashedPassword($value);
             }
         );
-    }
-
-    public function getHashedPassword(string $password): string
-    {
-        return hash(self::PASSWORD_HASH_ALGO, $password);
     }
 
     protected function lastLogin(): Attribute

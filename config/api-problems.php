@@ -1,13 +1,13 @@
 <?php
 
 use App\Library\APIProblem\Exceptions\Problems\BadRequestException;
-use App\Library\APIProblem\Exceptions\Problems\InvalidAPIKeysException;
 use App\Library\APIProblem\Exceptions\Problems\MethodNotAllowedException;
 use App\Library\APIProblem\Exceptions\Problems\RequestValidationException;
 use App\Library\APIProblem\Exceptions\Problems\ResourceNotFoundException;
 use App\Library\APIProblem\Exceptions\Problems\RouteNotFoundException;
-use App\Library\APIProblem\Exceptions\Problems\UnauthenticatedUserException;
+use App\Library\APIProblem\Exceptions\Problems\UnauthenticatedAPIUserException;
 use App\Library\SDK\Definitions\HttpCode;
+use Domain\Common\Exceptions\UnauthenticatedUserException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -49,7 +49,7 @@ return [
     | NB : Les exceptions de type ApiProblemException non décrites seront
     | chargée à partir de la config "default".
     | /!\ L'attribut "default" ne devrait jamais être utilisé, il sert uniquement
-    | de "back-up" afin de palier d'éventuels oublis.
+    | de "backup" afin de palier d'éventuels oublis.
     */
     'problems' => [
 
@@ -59,12 +59,6 @@ return [
          * Cette section contient les erreurs propres aux différentes applications.
          * Les nouvelles erreurs devraient être ajoutées ci-dessous.
          */
-
-        InvalidAPIKeysException::class => [
-            "type" => "invalid-api-key",
-            "title" => "Unauthorized access.",
-            "status" => HttpCode::HTTP_OK
-        ],
 
 
         /**
@@ -98,7 +92,7 @@ return [
             "status" => HttpCode::HTTP_BAD_REQUEST,
         ],
 
-        UnauthenticatedUserException::class => [
+        UnauthenticatedAPIUserException::class => [
             "type" => "authentication-error",
             "title" => "End user cannot be found.",
             "status" => HttpCode::HTTP_UNAUTHORIZED,
@@ -129,7 +123,9 @@ return [
         ModelNotFoundException::class => ResourceNotFoundException::class,
         NotFoundHttpException::class => RouteNotFoundException::class,
         MethodNotAllowedHttpException::class => MethodNotAllowedException::class,
-        AuthenticationException::class => UnauthenticatedUserException::class
+        AuthenticationException::class => UnauthenticatedAPIUserException::class,
+        // Ne devrait jamais être déclenchée si les middlewares sont actifs et que les routes sont bien configurées
+        UnauthenticatedUserException::class => UnauthenticatedAPIUserException::class,
     ],
 
     /*

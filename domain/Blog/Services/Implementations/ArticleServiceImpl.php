@@ -7,18 +7,19 @@ use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
 use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;
 use Domain\Blog\Services\Interfaces\ArticleService;
 use Domain\Blog\ValueObjects\Status;
+use Domain\Users\Entities\User;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class ArticleServiceImpl implements ArticleService
 {
-    public function saveArticle(Article $article): Article
+    public function createArticleForUser(Article $article, User $user): Article
     {
         if ($article->isPublished()) {
             $article->published_at = now();
         }
 
-        $article->save();
+        $user->articles()->save($article);
         return $article;
     }
 
