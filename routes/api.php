@@ -2,6 +2,7 @@
 
 use App\Modules\Blog\Controllers\ArticleController;
 use App\Modules\Common\Controllers\WelcomeController;
+use App\Modules\Users\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +22,6 @@ Route::patch('articles/{article}/publish', [ArticleController::class, 'publish']
 Route::patch('articles/{article}/draft', [ArticleController::class, 'draft'])->name('articles.draft');
 
 Route::apiResource('articles', ArticleController::class);
+
+Route::apiResource('users', UserController::class)->only('index', 'store', 'show', 'destroy');
+Route::post('users/login', [UserController::class, 'login'])->name('users.login');
