@@ -117,7 +117,7 @@ class ArticleController extends BaseAPIController
     public function destroy(Article $article): Response
     {
         $this->articleService->delete($article);
-        return response(null, HttpCode::HTTP_NO_CONTENT->value);
+        return response(null, HttpCode::HTTP_NO_CONTENT);
     }
 
     /**
