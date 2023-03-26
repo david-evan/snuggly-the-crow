@@ -21,7 +21,7 @@ class StoreUserRequest extends UserRequest
      */
     public function rules()
     {
-        return  [
+        return [
             'username' => 'required|max:128|min:3',
             'password' => 'required|max:128|min:6',
         ];

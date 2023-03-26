@@ -50,6 +50,6 @@ interface ArticleService
     /**
      * @return Collection
      */
-    public function findAllTrashed() : Collection;
+    public function findAllTrashed(): Collection;
 
 }

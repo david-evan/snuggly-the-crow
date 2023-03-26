@@ -55,12 +55,12 @@ class Article extends BaseEntity
      * Indique si un article est publié
      * @return bool
      */
-    public function isPublished() : bool
+    public function isPublished(): bool
     {
         return Status::tryFrom($this->status) === Status::PUBLISHED;
     }
 
-    public function isDraft() : bool
+    public function isDraft(): bool
     {
         return Status::tryFrom($this->status) === Status::DRAFT;
     }
@@ -73,9 +73,9 @@ class Article extends BaseEntity
         return Attribute::make(
             set: function (string $value) {
                 if (false ===
-                    StringUtils::isLenBetween($value, min: self::TITLE_MIN_LENGTH, max : self::TITLE_MAX_LENGTH)) {
+                    StringUtils::isLenBetween($value, min: self::TITLE_MIN_LENGTH, max: self::TITLE_MAX_LENGTH)) {
                     throw new InvalidArgumentException(
-                        'Title must be between '. self::TITLE_MIN_LENGTH .' and ' . self::TITLE_MAX_LENGTH . ' chars'
+                        'Title must be between ' . self::TITLE_MIN_LENGTH . ' and ' . self::TITLE_MAX_LENGTH . ' chars'
                     );
                 }
                 return $value;
@@ -83,13 +83,13 @@ class Article extends BaseEntity
         );
     }
 
-    protected function status() : Attribute
+    protected function status(): Attribute
     {
         return Attribute::make(
             set: function (string|Status $value) {
-                if (false === $value instanceof  Status && null === Status::tryFrom($value)) {
+                if (false === $value instanceof Status && null === Status::tryFrom($value)) {
                     throw new InvalidArgumentException(
-                        'Status must be in list ['. implode(', ', array_column(Status::cases(), 'value')) .']'
+                        'Status must be in list [' . implode(', ', array_column(Status::cases(), 'value')) . ']'
                     );
                 }
                 return $value;
@@ -97,10 +97,10 @@ class Article extends BaseEntity
         );
     }
 
-    protected function publishedAt() : Attribute
+    protected function publishedAt(): Attribute
     {
         return Attribute::make(
-            get:  fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339),
+            get: fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339),
 
             set: function (string|\DateTime $value) {
                 $carbonDate = new Carbon($value);

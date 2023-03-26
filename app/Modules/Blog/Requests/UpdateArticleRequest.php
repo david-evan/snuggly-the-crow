@@ -24,11 +24,11 @@ class UpdateArticleRequest extends ArticleRequest
      */
     public function rules()
     {
-        return  [
+        return [
             'title' => 'required|max:128|min:3',
             'content' => 'required',
-            'status' =>  ['required', new Enum(Status::class)],
-            'published_at' => 'sometimes|date_format:'.DATE_RFC3339,
+            'status' => ['required', new Enum(Status::class)],
+            'published_at' => 'sometimes|date_format:' . DATE_RFC3339,
         ];
     }
 }

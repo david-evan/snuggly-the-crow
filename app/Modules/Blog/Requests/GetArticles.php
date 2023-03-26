@@ -24,8 +24,8 @@ class GetArticles extends ArticleRequest
      */
     public function rules()
     {
-        return  [
-            'status' =>  ['sometimes', new Enum(Status::class)],
+        return [
+            'status' => ['sometimes', new Enum(Status::class)],
             'perPage' => 'sometimes|required|integer',
         ];
     }

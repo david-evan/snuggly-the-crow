@@ -75,8 +75,8 @@ class ArticleServiceImpl implements ArticleService
         return $article;
     }
 
-    public function findAllTrashed() : Collection
+    public function findAllTrashed(): Collection
     {
-          return Article::onlyTrashed()->get();
+        return Article::onlyTrashed()->get();
     }
 }

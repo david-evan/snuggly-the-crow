@@ -18,14 +18,14 @@ class UserController extends BaseAPIController
 {
     public function __construct(
         protected UserService $userService
-    ) {}
+    ){}
 
     /**
      * @GET /users/
      * Renvoi la liste des utilisateurs
      * @return AnonymousResourceCollection
      */
-    public function index() : AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         return UserResource::collection(
             $this->userService->findAll()
@@ -39,7 +39,7 @@ class UserController extends BaseAPIController
      * @return UserResource
      * @throws BadRequestException
      */
-    public function store(StoreUserRequest $request) : AuthenticatedUserResource
+    public function store(StoreUserRequest $request): AuthenticatedUserResource
     {
         $username = $request->validated()['username'] ?? '';
         $password = $request->validated()['password'] ?? '';
@@ -60,7 +60,7 @@ class UserController extends BaseAPIController
      * @return AuthenticatedUserResource
      * @throws BadRequestException
      */
-    public function login(UserLoginRequest $request) : AuthenticatedUserResource
+    public function login(UserLoginRequest $request): AuthenticatedUserResource
     {
         $username = $request->validated()['username'] ?? '';
         $password = $request->validated()['password'] ?? '';
@@ -80,7 +80,7 @@ class UserController extends BaseAPIController
      * @param User $user
      * @return Response
      */
-    public function destroy(User $user) : Response
+    public function destroy(User $user): Response
     {
         $this->userService->delete($user);
         return response(null, HttpCode::HTTP_NO_CONTENT);

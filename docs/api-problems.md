@@ -15,18 +15,17 @@ correctement les exceptions de type API Problem.
 <br>
 
 - [Usage](#usage)
-  * [Modification du Handler d'exceptions](#modification-du-handler-d-exceptions)
-  * [Création d'une Exception de type API Problem](#cr-ation-d-une-exception-de-type-api-problem)
-  * [Configuration de l'exception](#configuration-de-l-exception)
-  * [Conversion d'une Exception "classique" en Exception API Problem](#conversion-d-une-exception--classique--en-exception-api-problem)
-  * [Ajout de champs personnalisés à l'API Problem](#ajout-de-champs-personnalis-s---l-api-problem)
-  * [Gestion des erreurs du validator](#gestion-des-erreurs-du-validator)
+    * [Modification du Handler d'exceptions](#modification-du-handler-d-exceptions)
+    * [Création d'une Exception de type API Problem](#cr-ation-d-une-exception-de-type-api-problem)
+    * [Configuration de l'exception](#configuration-de-l-exception)
+    * [Conversion d'une Exception "classique" en Exception API Problem](#conversion-d-une-exception--classique--en-exception-api-problem)
+    * [Ajout de champs personnalisés à l'API Problem](#ajout-de-champs-personnalis-s---l-api-problem)
+    * [Gestion des erreurs du validator](#gestion-des-erreurs-du-validator)
 - [Liste des API Problems et des converters pré-configurés](#liste-des-api-problems-et-des-converters-pr--configur-s)
-  * [API Problems existants](#api-problems-existants)
-  * [Converters configurés](#converters-configur-s)
+    * [API Problems existants](#api-problems-existants)
+    * [Converters configurés](#converters-configur-s)
 - [Tests des API Problems](#tests-des-api-problems)
-  * [Usage](#usage-1)
-
+    * [Usage](#usage-1)
 
 ## Usage
 
@@ -52,7 +51,8 @@ class Handler extends APIProblemsExceptionHandler
 
 > **Nécessité du Accept : application-json** : <br>
 > Cette bibliothèque est prévue pour apporter les fonctionnalités d'API Problem à toutes requêtes API demandant une
-> sortie d'erreur au format JSON. Afin d'obtenir une sortie d'erreur correctement formatée, il est nécessaire de spécifier
+> sortie d'erreur au format JSON. Afin d'obtenir une sortie d'erreur correctement formatée, il est nécessaire de
+> spécifier
 > le header `Accept : application/json` ou, au besoin, de surcharger les requêtes Laravel pour forcer les demandes en
 > JSON.
 

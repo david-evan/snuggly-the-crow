@@ -3,7 +3,6 @@
 namespace Domain\Blog\Exceptions;
 
 use Domain\Blog\Entities\Article;
-use Domain\Blog\ValueObjects\Status;
 
 class ArticleAlreadyPublishedException extends \LogicException
 {
