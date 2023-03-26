@@ -15,7 +15,7 @@ interface UserService
      * @return User
      * @throws BadUserCredentialsException
      */
-    public function login(string $username, string $presentedPassword) : User;
+    public function login(string $username, string $presentedPassword): User;
 
     /**
      * @param string $username
@@ -24,7 +24,7 @@ interface UserService
      * @throws UserAlreadyExistException
      * @throws \InvalidArgumentException
      */
-    public function createUser(string $username, string $password) : User;
+    public function createUser(string $username, string $password): User;
 
     /**
      * @return Collection

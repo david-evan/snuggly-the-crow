@@ -10,7 +10,7 @@ class CannotUpdatePublishedArticleException extends \LogicException
     public function __construct(Article $article)
     {
         parent::__construct(
-            'Article ' . $article->id . ' can not be updated because its status is '. Status::PUBLISHED->value
+            'Article ' . $article->id . ' can not be updated because its status is ' . Status::PUBLISHED->value
         );
     }
 }

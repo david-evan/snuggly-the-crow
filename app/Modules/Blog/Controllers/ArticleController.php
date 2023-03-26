@@ -24,18 +24,18 @@ class ArticleController extends BaseAPIController
 
     public function __construct(
         protected ArticleService $articleService
-    ) {}
+    ){}
 
     /**
      * @GET : /articles
      * Retourne la liste des articles
      */
-    public function index(GetArticles $request) : AnonymousResourceCollection
+    public function index(GetArticles $request): AnonymousResourceCollection
     {
         $size = $request->validated()['perPage'] ?? null;
         $status = $request->validated()['status'] ?? null;
 
-        $articlesPerPage = (int) min($size ?? self::DEFAULT_PER_PAGE_RESULT,self::MAX_RESULT_PER_PAGE);
+        $articlesPerPage = (int)min($size ?? self::DEFAULT_PER_PAGE_RESULT, self::MAX_RESULT_PER_PAGE);
 
         $paginator = $this->articleService->findAll($articlesPerPage, Status::tryFrom($status));
 
@@ -57,7 +57,7 @@ class ArticleController extends BaseAPIController
      * @param Article $article
      * @return ArticleResource
      */
-    public function show(Article $article) : ArticleResource
+    public function show(Article $article): ArticleResource
     {
         return new ArticleResource($article);
     }
@@ -70,7 +70,7 @@ class ArticleController extends BaseAPIController
      * @return ArticleResource
      * @throws BadRequestException
      */
-    public function store(StoreArticleRequest $request) : ArticleResource
+    public function store(StoreArticleRequest $request): ArticleResource
     {
         try {
             $article = new Article($request->validated());
@@ -92,7 +92,7 @@ class ArticleController extends BaseAPIController
      * @return ArticleResource
      * @throws BadRequestException
      */
-    public function update(UpdateArticleRequest $request, Article $article) : ArticleResource
+    public function update(UpdateArticleRequest $request, Article $article): ArticleResource
     {
         try {
             $futurArticle = new Article($request->validated());
@@ -136,7 +136,7 @@ class ArticleController extends BaseAPIController
      * @return ArticleResource
      * @throws BadRequestException
      */
-    public function publish(Article $article) : ArticleResource
+    public function publish(Article $article): ArticleResource
     {
         try {
             return new ArticleResource(
@@ -154,7 +154,7 @@ class ArticleController extends BaseAPIController
      * @return ArticleResource
      * @throws BadRequestException
      */
-    public function draft(Article $article) : ArticleResource
+    public function draft(Article $article): ArticleResource
     {
         try {
             return new ArticleResource(
@@ -169,7 +169,7 @@ class ArticleController extends BaseAPIController
      * @GET /articles/trashed
      * Renvoi la liste des articles supprimés
      */
-    public function trashed() : AnonymousResourceCollection
+    public function trashed(): AnonymousResourceCollection
     {
         return TrashedArticleResource::collection(
             $this->articleService->findAllTrashed()

@@ -21,7 +21,7 @@ class UserLoginRequest extends UserRequest
      */
     public function rules()
     {
-        return  [
+        return [
             'username' => 'required',
             'password' => 'required',
         ];

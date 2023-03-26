@@ -16,7 +16,7 @@ abstract class StringUtils extends Str
      * @param int $max
      * @return bool
      */
-    public static function isLenBetween(string $value, int $min = 0, int $max = 0) : bool
+    public static function isLenBetween(string $value, int $min = 0, int $max = 0): bool
     {
         return mb_strlen($value, self::CHARSET) >= $min
             && mb_strlen($value, self::CHARSET) <= $max;

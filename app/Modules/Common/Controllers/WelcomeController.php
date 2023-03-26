@@ -20,7 +20,7 @@ class WelcomeController extends BaseAPIController
         $healthcheck = 'OK';
         $routes = [];
         foreach ($router->getRoutes() as $route) {
-            $routes[$route->getName() .' ('.implode(', ', $route->methods()).')'] = $route->uri();
+            $routes[$route->getName() . ' (' . implode(', ', $route->methods()) . ')'] = $route->uri();
         }
 
         $routes = array_filter($routes, fn($v) => strpos($v, '_ignition') === false);
@@ -38,7 +38,7 @@ class WelcomeController extends BaseAPIController
             'phpVersion' => phpversion(),
             'webServer' => $request->server('SERVER_SOFTWARE'),
             'databaseConnected' => $dbConnected,
-            'healthcheck'=> $healthcheck,
+            'healthcheck' => $healthcheck,
             'routes' => $routes
         ], $dbConnected ? HttpCode::HTTP_OK : HttpCode::HTTP_BAD_GATEWAY);
     }

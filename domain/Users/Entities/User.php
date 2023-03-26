@@ -5,12 +5,12 @@ namespace Domain\Users\Entities;
 use Carbon\Carbon;
 use Domain\Common\Entities\BaseEntity;
 use Helpers\StringUtils;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Utilisateur de l'application (API)
@@ -62,7 +62,7 @@ class User extends BaseEntity
      * Met à jour la date de connexion de l'utilisateur et génère une nouvelle clef API
      * @return void
      */
-    public function updateLastLoginAndGenerateNewApiKey() : self
+    public function updateLastLoginAndGenerateNewApiKey(): self
     {
         $this->last_login = now();
         $this->api_key = Uuid::uuid4()->toString();
@@ -70,28 +70,21 @@ class User extends BaseEntity
         return $this;
     }
 
-    public function getHashedPassword(string $password) : string
-    {
-        return hash(self::PASSWORD_HASH_ALGO, $password);
-    }
-
-    /* ------------ ELOQUENT SCOPES  ------------ */
-
     public function scopeWhereUsernameIs($query, string $username)
     {
         return $query->where('username', $username);
     }
 
-    /* ------------ ACCESSOR / MUTATOR ------------ */
+    /* ------------ ELOQUENT SCOPES  ------------ */
 
     protected function username(): Attribute
     {
         return Attribute::make(
             set: function (string $value) {
                 if (false ===
-                    StringUtils::isLenBetween($value, min: self::USERNAME_MIN_LENGTH, max : self::USERNAME_MAX_LENGTH)) {
+                    StringUtils::isLenBetween($value, min: self::USERNAME_MIN_LENGTH, max: self::USERNAME_MAX_LENGTH)) {
                     throw new InvalidArgumentException(
-                        'Username must be between '. self::USERNAME_MIN_LENGTH .' and ' . self::USERNAME_MAX_LENGTH . ' chars'
+                        'Username must be between ' . self::USERNAME_MIN_LENGTH . ' and ' . self::USERNAME_MAX_LENGTH . ' chars'
                     );
                 }
                 return $value;
@@ -99,14 +92,16 @@ class User extends BaseEntity
         );
     }
 
+    /* ------------ ACCESSOR / MUTATOR ------------ */
+
     protected function password(): Attribute
     {
         return Attribute::make(
             set: function (string $value) {
                 if (false ===
-                    StringUtils::isLenBetween($value, min: self::PASSWORD_MIN_LENGTH, max : self::PASSWORD_MAX_LENGTH)) {
+                    StringUtils::isLenBetween($value, min: self::PASSWORD_MIN_LENGTH, max: self::PASSWORD_MAX_LENGTH)) {
                     throw new InvalidArgumentException(
-                        'Login must be between '. self::PASSWORD_MIN_LENGTH .' and ' . self::PASSWORD_MAX_LENGTH . ' chars'
+                        'Login must be between ' . self::PASSWORD_MIN_LENGTH . ' and ' . self::PASSWORD_MAX_LENGTH . ' chars'
                     );
                 }
                 return $this->getHashedPassword($value);
@@ -114,17 +109,22 @@ class User extends BaseEntity
         );
     }
 
-    protected function lastLogin() : Attribute
+    public function getHashedPassword(string $password): string
+    {
+        return hash(self::PASSWORD_HASH_ALGO, $password);
+    }
+
+    protected function lastLogin(): Attribute
     {
         return Attribute::make(
-            get:  fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339)
+            get: fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339)
         );
     }
 
-    protected function apiKeyExpireAt() : Attribute
+    protected function apiKeyExpireAt(): Attribute
     {
         return Attribute::make(
-            get:  fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339)
+            get: fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339)
         );
     }
 }

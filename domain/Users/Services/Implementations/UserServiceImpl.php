@@ -23,7 +23,7 @@ class UserServiceImpl implements UserService
         try {
             /** @var User $user */
             $user = User::whereUsernameIs($username)->firstOrFail();
-        } catch (ModelNotFoundException $exception){
+        } catch (ModelNotFoundException $exception) {
             throw new BadUserCredentialsException();
         }
 
