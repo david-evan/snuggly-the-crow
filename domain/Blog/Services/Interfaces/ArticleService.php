@@ -2,11 +2,13 @@
 
 namespace Domain\Blog\Services\Interfaces;
 
+use App\Library\SDK\Collections\TypedCollection;
 use Domain\Blog\Entities\Article;
 use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
 use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;
 use Domain\Blog\ValueObjects\Status;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ArticleService
 {
@@ -45,4 +47,10 @@ interface ArticleService
      * @throws  ArticleAlreadyPublishedException
      */
     public function publish(Article $article): Article;
+
+    /**
+     * @return Collection
+     */
+    public function findAllTrashed() : Collection;
+
 }

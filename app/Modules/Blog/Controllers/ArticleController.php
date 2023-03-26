@@ -8,6 +8,7 @@ use App\Modules\Blog\Requests\GetArticles;
 use App\Modules\Blog\Requests\StoreArticleRequest;
 use App\Modules\Blog\Requests\UpdateArticleRequest;
 use App\Modules\Blog\Resources\JSON\ArticleResource;
+use App\Modules\Blog\Resources\JSON\TrashedArticleResource;
 use App\Modules\Common\Controllers\BaseAPIController;
 use Domain\Blog\Entities\Article;
 use Domain\Blog\Services\Interfaces\ArticleService;
@@ -26,7 +27,7 @@ class ArticleController extends BaseAPIController
     ) {}
 
     /**
-     * @GET : articles/
+     * @GET : /articles
      * Retourne la liste des articles
      */
     public function index(GetArticles $request) : AnonymousResourceCollection
@@ -129,7 +130,7 @@ class ArticleController extends BaseAPIController
 
 
     /**
-     * @PUT /articles/{article}/publish
+     * @PATCH /articles/{article}/publish
      * Publie un article
      * @param Article $article
      * @return ArticleResource
@@ -147,7 +148,7 @@ class ArticleController extends BaseAPIController
     }
 
     /**
-     * @PUT /articles/{article}/draft
+     * @PATCH /articles/{article}/draft
      * Passe un article au status brouillon
      * @param Article $article
      * @return ArticleResource
@@ -162,5 +163,16 @@ class ArticleController extends BaseAPIController
         } catch (\LogicException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
+    }
+
+    /**
+     * @GET /articles/trashed
+     * Renvoi la liste des articles supprimés
+     */
+    public function trashed() : AnonymousResourceCollection
+    {
+        return TrashedArticleResource::collection(
+            $this->articleService->findAllTrashed()
+        );
     }
 }

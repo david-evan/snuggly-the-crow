@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [WelcomeController::class, 'index'])->name('api.welcome');
 
-Route::apiResource( 'articles', ArticleController::class);
+Route::get('articles/trashed', [ArticleController::class, 'trashed'])->name('articles.trashed');
 Route::patch('articles/{article}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
 Route::patch('articles/{article}/draft', [ArticleController::class, 'draft'])->name('articles.draft');
+
+Route::apiResource('articles', ArticleController::class);

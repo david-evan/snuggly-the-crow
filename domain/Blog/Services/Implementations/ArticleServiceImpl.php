@@ -8,6 +8,7 @@ use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;
 use Domain\Blog\Services\Interfaces\ArticleService;
 use Domain\Blog\ValueObjects\Status;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class ArticleServiceImpl implements ArticleService
 {
@@ -72,5 +73,10 @@ class ArticleServiceImpl implements ArticleService
         $article->status = Status::DRAFT;
         $article->save();
         return $article;
+    }
+
+    public function findAllTrashed() : Collection
+    {
+          return Article::onlyTrashed()->get();
     }
 }

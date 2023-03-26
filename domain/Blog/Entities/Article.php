@@ -9,7 +9,6 @@ use Helpers\StringUtils;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Date;
 use InvalidArgumentException;
 
 /**
@@ -19,6 +18,10 @@ use InvalidArgumentException;
  * @property string $content
  * @property \DateTime $published_at
  * @property Status $status;
+ *
+ * @property \DateTime $updated_at
+ * @property \DateTime $created_at
+ * @property \DateTime $deleted_at
  */
 class Article extends BaseEntity
 {
