@@ -1,5 +1,6 @@
 <?php
 
+use App\Library\APIProblem\Exceptions\Problems\BadRequestException;
 use App\Library\APIProblem\Exceptions\Problems\InvalidAPIKeysException;
 use App\Library\APIProblem\Exceptions\Problems\MethodNotAllowedException;
 use App\Library\APIProblem\Exceptions\Problems\RequestValidationException;
@@ -102,6 +103,14 @@ return [
             "title" => "End user cannot be found.",
             "status" => HttpCode::HTTP_UNAUTHORIZED,
         ],
+
+        BadRequestException::class => [
+            "type" => "bad-request",
+            "title" => "Bad request",
+            "status" => HttpCode::HTTP_BAD_REQUEST,
+        ],
+
+
 
         /**
          * DEFAULT ERROR

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Domain\Blog\Services\Implementations\ArticleServiceImpl;
+use Domain\Blog\Services\Interfaces\ArticleService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind(ArticleService::class, ArticleServiceImpl::class);
     }
 }

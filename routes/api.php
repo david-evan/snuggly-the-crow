@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\WelcomeController;
+use App\Modules\Blog\Controllers\ArticleController;
+use App\Modules\Common\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,3 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [WelcomeController::class, 'index'])->name('api.welcome');
+
+Route::get('articles/trashed', [ArticleController::class, 'trashed'])->name('articles.trashed');
+Route::patch('articles/{article}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
+Route::patch('articles/{article}/draft', [ArticleController::class, 'draft'])->name('articles.draft');
+
+Route::apiResource('articles', ArticleController::class);
