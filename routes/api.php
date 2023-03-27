@@ -17,12 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(function () {
+Route::get('/', [WelcomeController::class, 'index'])->name('api.welcome');
+
+Route::prefix(config('app.version'))->group(function () {
 
     Route::post('users/login', [UserController::class, 'login'])->name('users.login');
 
     Route::middleware([MustBeAuthenticated::class])->group(function () {
-        Route::get('/', [WelcomeController::class, 'index'])->name('api.welcome');
 
         Route::get('articles/trashed', [ArticleController::class, 'trashed'])->name('articles.trashed');
         Route::patch('articles/{article}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
