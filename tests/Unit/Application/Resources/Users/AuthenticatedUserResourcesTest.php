@@ -5,6 +5,8 @@ namespace Application\Resources\Users;
 use App\Modules\Users\Resources\JSON\AuthenticatedUserResource;
 use Domain\Users\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class AuthenticatedUserResourcesTest extends TestCase
@@ -31,5 +33,12 @@ class AuthenticatedUserResourcesTest extends TestCase
         $this->assertArrayHasKey('api_key_expire_at', $userJsonArray);
 
         $this->assertTrue(6 === count($userJsonArray));
+
+        $this->assertTrue(Uuid::isValid($userJsonArray['id'] ?? null ));
+        $this->assertTrue(Uuid::isValid($userJsonArray['api_key'] ?? null ));
+
+        $this->assertTrue(Carbon::createFromFormat(DATE_RFC3339, $userJsonArray['api_key_expire_at'] ?? null) instanceof \DateTime);
+        $this->assertTrue(Carbon::createFromFormat(DATE_RFC3339, $userJsonArray['last_login'] ?? null) instanceof \DateTime);
+        $this->assertTrue(Carbon::createFromFormat(DATE_RFC3339, $userJsonArray['created_at'] ?? null) instanceof \DateTime);
     }
 }

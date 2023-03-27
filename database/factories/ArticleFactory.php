@@ -42,11 +42,11 @@ class ArticleFactory extends Factory
         });
     }
 
-    public function publishAtRandomDatetime(): Factory
+    public function publishAtRandomDate(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'publish_at' => fake()->dateTimeThisMonth()
+                'published_at' => fake()->dateTimeThisMonth()
             ];
         });
     }

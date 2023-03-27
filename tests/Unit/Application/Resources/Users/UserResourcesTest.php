@@ -5,6 +5,8 @@ namespace Application\Resources\Users;
 use App\Modules\Users\Resources\JSON\UserResource;
 use Domain\Users\Entities\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class UserResourcesTest extends TestCase
@@ -14,7 +16,10 @@ class UserResourcesTest extends TestCase
     public function test_UserResourceStructure()
     {
         // given ...
-        $user = User::factory()->create();
+
+        /** @var User $user */
+        $user = User::factory()->make();
+        $user->updateLastLoginAndGenerateNewApiKey()->save();
 
         // when ...
         $userJsonArray = json_decode((new UserResource($user))->toJson(), true);
@@ -26,5 +31,9 @@ class UserResourcesTest extends TestCase
         $this->assertArrayHasKey('created_at', $userJsonArray);
 
         $this->assertTrue(4 === count($userJsonArray));
+
+        $this->assertTrue(Uuid::isValid($userJsonArray['id'] ?? null ));
+        $this->assertTrue(Carbon::createFromFormat(DATE_RFC3339, $userJsonArray['last_login'] ?? null) instanceof \DateTime);
+        $this->assertTrue(Carbon::createFromFormat(DATE_RFC3339, $userJsonArray['created_at'] ?? null) instanceof \DateTime);
     }
 }
