@@ -36,4 +36,10 @@ interface UserService
      * @return void
      */
     public function delete(User $user): void;
+
+    /**
+     * @param string $apiKey
+     * @return User|null
+     */
+    public function findUserFromAPIKey(string $apiKey) : ?User;
 }

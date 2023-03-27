@@ -5,9 +5,11 @@ namespace Domain\Blog\Entities;
 use Carbon\Carbon;
 use Domain\Blog\ValueObjects\Status;
 use Domain\Common\Entities\BaseEntity;
+use Domain\Users\Entities\User;
 use Helpers\StringUtils;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 
@@ -47,6 +49,13 @@ class Article extends BaseEntity
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+    }
+
+    /* ------------ ELOQUENT RELATIONSHIPS  ------------ */
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /* ------------ HELPERS ------------*/
