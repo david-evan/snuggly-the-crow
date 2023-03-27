@@ -11,7 +11,7 @@ interface AuthenticationService
      * @param string $apiKey
      * @return bool
      */
-    public function authenticateFromAPIKey(string $apiKey) : bool;
+    public function authenticateFromAPIKey(string $apiKey): bool;
 
     /**
      * @return User|null
@@ -27,7 +27,7 @@ interface AuthenticationService
     /**
      * @return bool
      */
-    public function isAuthenticated() : bool;
+    public function isAuthenticated(): bool;
 
     /**
      * @return void

@@ -2,7 +2,9 @@
 
 namespace Domain\Users\Exceptions;
 
-class BadUserCredentialsException extends \LogicException
+use LogicException;
+
+class BadUserCredentialsException extends LogicException
 {
     public function __construct()
     {

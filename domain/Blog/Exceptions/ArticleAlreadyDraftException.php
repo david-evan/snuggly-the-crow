@@ -3,8 +3,9 @@
 namespace Domain\Blog\Exceptions;
 
 use Domain\Blog\Entities\Article;
+use LogicException;
 
-class ArticleAlreadyDraftException extends \LogicException
+class ArticleAlreadyDraftException extends LogicException
 {
     public function __construct(Article $article)
     {

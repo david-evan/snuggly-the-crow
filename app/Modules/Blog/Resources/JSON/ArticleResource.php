@@ -13,7 +13,7 @@ class ArticleResource extends JsonResource
         /** @var Article $this */
         return [
             'id' => $this->id,
-            'title' =>$this->title,
+            'title' => $this->title,
             'content' => $this->content,
             'status' => $this->status,
             'published_at' => $this->published_at,
