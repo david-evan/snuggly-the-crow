@@ -3,12 +3,15 @@
 namespace Domain\Blog\Entities;
 
 use Carbon\Carbon;
+use Database\Factories\ArticleFactory;
 use Domain\Blog\ValueObjects\Status;
 use Domain\Common\Entities\BaseEntity;
 use Domain\Users\Entities\User;
 use Helpers\StringUtils;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
@@ -27,7 +30,7 @@ use InvalidArgumentException;
  */
 class Article extends BaseEntity
 {
-    use HasUuids, SoftDeletes;
+    use HasUuids, SoftDeletes, HasFactory;
 
     /* ------------ CONST - ENTITY BUSINESS RULES ------------ */
     // Nombre maximum / minimum de caractères dans le titre d'un article
@@ -121,5 +124,11 @@ class Article extends BaseEntity
                 return $carbonDate->format(DATE_RFC3339);
             }
         );
+    }
+
+    /* ------------ FACTORY  ------------ */
+    protected static function newFactory(): Factory
+    {
+        return ArticleFactory::new();
     }
 }
