@@ -3,12 +3,15 @@
 namespace Domain\Users\Entities;
 
 use Carbon\Carbon;
+use Database\Factories\UserFactory;
 use Domain\Blog\Entities\Article;
 use Domain\Common\Entities\BaseEntity;
 use Helpers\StringUtils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
@@ -31,7 +34,7 @@ use Ramsey\Uuid\Uuid;
  */
 class User extends BaseEntity
 {
-    use HasUuids;
+    use HasUuids, HasFactory;
 
     /* ------------ CONST - ENTITY BUSINESS RULES ------------ */
     // Nombre maximum / minimum de caractères dans le titre d'un article
@@ -91,7 +94,7 @@ class User extends BaseEntity
         return $this;
     }
 
-    public function getHashedPassword(string $password): string
+    public static function getHashedPassword(string $password): string
     {
         return hash(self::PASSWORD_HASH_ALGO, $password);
     }
@@ -140,5 +143,11 @@ class User extends BaseEntity
         return Attribute::make(
             get: fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339)
         );
+    }
+
+    /* ------------ FACTORY  ------------ */
+    protected static function newFactory(): Factory
+    {
+        return UserFactory::new();
     }
 }

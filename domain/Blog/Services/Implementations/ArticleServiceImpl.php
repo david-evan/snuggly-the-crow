@@ -43,7 +43,10 @@ class ArticleServiceImpl implements ArticleService
         $articleToUpdate->title = $futurArticle->title ?? $articleToUpdate->title;
         $articleToUpdate->content = $futurArticle->content ?? $articleToUpdate->content;
         $articleToUpdate->status = $futurArticle->status ?? $articleToUpdate->status;
-        $articleToUpdate->published_at = $futurArticle->published_at ?? $articleToUpdate->published_at;
+
+        if ($futurArticle->published_at instanceof \DateTime) {
+            $articleToUpdate->published_at = $futurArticle->published_at;
+        }
 
         $articleToUpdate->save();
 
@@ -62,6 +65,7 @@ class ArticleServiceImpl implements ArticleService
         }
 
         $article->status = Status::PUBLISHED;
+        $article->published_at = now();
         $article->save();
         return $article;
     }
