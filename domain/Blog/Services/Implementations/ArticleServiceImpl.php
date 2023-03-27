@@ -62,6 +62,7 @@ class ArticleServiceImpl implements ArticleService
         }
 
         $article->status = Status::PUBLISHED;
+        $article->published_at = now();
         $article->save();
         return $article;
     }

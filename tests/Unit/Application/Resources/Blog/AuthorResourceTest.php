@@ -12,7 +12,7 @@ class AuthorResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_AuthorResourceStructure()
+    public function test_AuthorResourceStructure(): void
     {
         // given ...
         /** @var User $user */

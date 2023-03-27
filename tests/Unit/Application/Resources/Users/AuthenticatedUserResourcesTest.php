@@ -13,7 +13,7 @@ class AuthenticatedUserResourcesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_AuthenticatedUserResourceStructure()
+    public function test_AuthenticatedUserResourceStructure(): void
     {
         // given ...
         /** @var User $user */

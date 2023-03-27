@@ -15,7 +15,7 @@ class ArticleResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_ArticleResourceStructure()
+    public function test_ArticleResourceStructure(): void
     {
         // given ...
         /** @var User $user */

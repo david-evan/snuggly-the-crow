@@ -13,7 +13,7 @@ class UserResourcesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_UserResourceStructure()
+    public function test_UserResourceStructure(): void
     {
         // given ...
 

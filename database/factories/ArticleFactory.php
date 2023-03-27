@@ -27,7 +27,7 @@ class ArticleFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => Status::DRAFT,
+                'status' => Status::DRAFT->value,
             ];
         });
     }
@@ -36,7 +36,7 @@ class ArticleFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => Status::PUBLISHED,
+                'status' => Status::PUBLISHED->value,
                 'published_at' => now()
             ];
         });

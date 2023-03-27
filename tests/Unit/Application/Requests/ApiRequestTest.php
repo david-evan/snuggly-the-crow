@@ -7,13 +7,13 @@ use Tests\TestCase;
 
 class ApiRequestTest extends TestCase
 {
-    public function test_requestWantsJson()
+    public function test_requestWantsJson(): void
     {
         $request = new class extends ApiRequest {};
         $this->assertTrue($request->wantsJson());
     }
 
-    public function test_requestExpectsJson()
+    public function test_requestExpectsJson(): void
     {
         $request = new class extends ApiRequest {};
         $this->assertTrue($request->expectsJson());

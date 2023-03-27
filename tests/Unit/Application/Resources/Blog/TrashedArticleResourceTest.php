@@ -15,7 +15,7 @@ class TrashedArticleResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_TrashedArticleResourceStructure()
+    public function test_TrashedArticleResourceStructure(): void
     {
         // given ...
         /** @var User $user */
