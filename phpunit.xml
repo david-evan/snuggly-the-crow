@@ -15,6 +15,7 @@
     <coverage>
         <include>
             <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./domain</directory>
         </include>
     </coverage>
     <php>

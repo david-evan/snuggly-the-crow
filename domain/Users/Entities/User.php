@@ -94,7 +94,7 @@ class User extends BaseEntity
         return $this;
     }
 
-    public function getHashedPassword(string $password): string
+    public static function getHashedPassword(string $password): string
     {
         return hash(self::PASSWORD_HASH_ALGO, $password);
     }

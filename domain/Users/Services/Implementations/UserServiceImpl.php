@@ -27,7 +27,7 @@ class UserServiceImpl implements UserService
             throw new BadUserCredentialsException();
         }
 
-        if ($user->password !== $user->getHashedPassword($presentedPassword)) {
+        if ($user->password !== $user::getHashedPassword($presentedPassword)) {
             throw new BadUserCredentialsException();
         }
 
