@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Resources\Users;
+namespace Tests\Unit\Application\Resources\Users;
 
 use App\Modules\Users\Resources\JSON\UserResource;
 use Domain\Users\Entities\User;

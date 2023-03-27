@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Requests;
+namespace Tests\Unit\Application\Requests;
 
 use App\Library\APIProblem\Http\Requests\API\ApiRequest;
 use Tests\TestCase;

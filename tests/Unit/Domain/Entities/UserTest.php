@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Entities;
+namespace Tests\Unit\Domain\Entities;
 
 use Domain\Users\Entities\User;
 use Illuminate\Support\Str;

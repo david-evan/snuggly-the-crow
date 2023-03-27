@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Resources\Blog;
+namespace Tests\Unit\Application\Resources\Blog;
 
 use App\Modules\Blog\Resources\JSON\ArticleResource;
 use Domain\Blog\Entities\Article;

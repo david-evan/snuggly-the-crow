@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Services;
+namespace Tests\Unit\Domain\Services;
 
 use Domain\Common\Exceptions\UnauthenticatedUserException;
 use Domain\Common\Services\Interfaces\AuthenticationService;

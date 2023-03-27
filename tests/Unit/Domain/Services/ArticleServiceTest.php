@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Services;
+namespace Tests\Unit\Domain\Services;
 
 use Carbon\Carbon;
 use Domain\Blog\Entities\Article;

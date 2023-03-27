@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Entities;
+namespace Tests\Unit\Domain\Entities;
 
 use Domain\Blog\Entities\Article;
 use Illuminate\Support\Str;

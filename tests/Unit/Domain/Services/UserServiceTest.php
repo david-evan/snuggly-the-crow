@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Services;
+namespace Tests\Unit\Domain\Services;
 
 use Domain\Users\Entities\User;
 use Domain\Users\Exceptions\BadUserCredentialsException;
