@@ -45,5 +45,5 @@ class AuthenticationServiceTest  extends TestCase
         // and then ...
         $this->assertFalse($this->authenticationService->isAuthenticated());
     }
-    
+
 }

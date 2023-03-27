@@ -25,7 +25,7 @@ class ArticleServiceTest extends TestCase
 
         // given ...
         $user = User::factory()->create();
-        $article = Article::factory()->draft()->make();
+        $article = Article::factory()->published()->make();
 
         // when ...
         $createdArticle = $this->articleService->createArticleForUser($article, $user);
@@ -33,7 +33,7 @@ class ArticleServiceTest extends TestCase
         // then ...
         $this->assertTrue($createdArticle->user()->first()->id ===  $user->id);
         $this->assertTrue($createdArticle->wasRecentlyCreated);
-        $this->assertTrue($createdArticle->isDraft());
+        $this->assertTrue($createdArticle->isPublished());
     }
 
     public function test_deleteUser(): void
@@ -43,7 +43,7 @@ class ArticleServiceTest extends TestCase
         // given ...
         /** @var Article $article */
         $article = User::factory()->create()->articles()
-            ->save(Article::factory()->published()->make()
+            ->save(Article::factory()->draft()->make()
         );
 
         // when ...
