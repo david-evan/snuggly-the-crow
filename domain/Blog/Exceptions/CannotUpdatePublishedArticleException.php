@@ -4,8 +4,9 @@ namespace Domain\Blog\Exceptions;
 
 use Domain\Blog\Entities\Article;
 use Domain\Blog\ValueObjects\Status;
+use LogicException;
 
-class CannotUpdatePublishedArticleException extends \LogicException
+class CannotUpdatePublishedArticleException extends LogicException
 {
     public function __construct(Article $article)
     {

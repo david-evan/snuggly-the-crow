@@ -4,6 +4,7 @@ namespace Domain\Blog\Entities;
 
 use Carbon\Carbon;
 use Database\Factories\ArticleFactory;
+use DateTime;
 use Domain\Blog\ValueObjects\Status;
 use Domain\Common\Entities\BaseEntity;
 use Domain\Users\Entities\User;
@@ -21,12 +22,12 @@ use InvalidArgumentException;
  * @property string $id
  * @property string $title
  * @property string $content
- * @property \DateTime $published_at
+ * @property DateTime $published_at
  * @property Status $status;
  *
- * @property \DateTime $updated_at
- * @property \DateTime $created_at
- * @property \DateTime $deleted_at
+ * @property DateTime $updated_at
+ * @property DateTime $created_at
+ * @property DateTime $deleted_at
  */
 class Article extends BaseEntity
 {
@@ -56,12 +57,17 @@ class Article extends BaseEntity
 
     /* ------------ ELOQUENT RELATIONSHIPS  ------------ */
 
+    protected static function newFactory(): Factory
+    {
+        return ArticleFactory::new();
+    }
+
+    /* ------------ HELPERS ------------*/
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
-    /* ------------ HELPERS ------------*/
 
     /**
      * Indique si un article est publié
@@ -72,13 +78,13 @@ class Article extends BaseEntity
         return Status::tryFrom($this->status) === Status::PUBLISHED;
     }
 
+
+    /* ------------ ACCESSOR / MUTATOR ------------ */
+
     public function isDraft(): bool
     {
         return Status::tryFrom($this->status) === Status::DRAFT;
     }
-
-
-    /* ------------ ACCESSOR / MUTATOR ------------ */
 
     protected function title(): Attribute
     {
@@ -109,12 +115,14 @@ class Article extends BaseEntity
         );
     }
 
+    /* ------------ FACTORY  ------------ */
+
     protected function publishedAt(): Attribute
     {
         return Attribute::make(
             get: fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339),
 
-            set: function (string|\DateTime $value) {
+            set: function (string|DateTime $value) {
                 $carbonDate = new Carbon($value);
                 if (false === $carbonDate instanceof Carbon) {
                     throw new InvalidArgumentException(
@@ -124,11 +132,5 @@ class Article extends BaseEntity
                 return $carbonDate->format(DATE_RFC3339);
             }
         );
-    }
-
-    /* ------------ FACTORY  ------------ */
-    protected static function newFactory(): Factory
-    {
-        return ArticleFactory::new();
     }
 }

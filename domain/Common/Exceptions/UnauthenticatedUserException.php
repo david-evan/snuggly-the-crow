@@ -2,7 +2,9 @@
 
 namespace Domain\Common\Exceptions;
 
-class UnauthenticatedUserException extends \LogicException
+use LogicException;
+
+class UnauthenticatedUserException extends LogicException
 {
     public function __construct()
     {

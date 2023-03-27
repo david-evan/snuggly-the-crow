@@ -2,7 +2,16 @@
 
 namespace App;
 
+use App\Modules\Common\Middleware\AuthenticateUserFromAPIKey;
+use App\Modules\Common\Middleware\PreventRequestsDuringMaintenance;
+use App\Modules\Common\Middleware\TrimStrings;
+use App\Modules\Common\Middleware\TrustProxies;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
+use Illuminate\Http\Middleware\HandleCors;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 
 class Kernel extends HttpKernel
 {
@@ -14,12 +23,12 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        \App\Modules\Common\Middleware\TrustProxies::class,
-        \Illuminate\Http\Middleware\HandleCors::class,
-        \App\Modules\Common\Middleware\PreventRequestsDuringMaintenance::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Modules\Common\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        TrustProxies::class,
+        HandleCors::class,
+        PreventRequestsDuringMaintenance::class,
+        ValidatePostSize::class,
+        TrimStrings::class,
+        ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -29,9 +38,9 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'api' => [
-            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Modules\Common\Middleware\AuthenticateUserFromAPIKey::class,
+            ThrottleRequests::class . ':api',
+            SubstituteBindings::class,
+            AuthenticateUserFromAPIKey::class,
         ],
     ];
 

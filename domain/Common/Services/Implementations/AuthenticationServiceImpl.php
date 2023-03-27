@@ -13,15 +13,22 @@ class AuthenticationServiceImpl implements AuthenticationService
 
     public function __construct(
         protected UserService $userService,
-    ) {}
-
-    public function authenticateFromAPIKey(string $apiKey) : bool
+    )
     {
-        $user =  $this->getCurrentUserFromApiKey($apiKey);
+    }
+
+    public function authenticateFromAPIKey(string $apiKey): bool
+    {
+        $user = $this->getCurrentUserFromApiKey($apiKey);
         if ($user instanceof User && now()->lessThanOrEqualTo($user->api_key_expire_at)) {
             $this->authenticatedUser = $user;
         }
         return $this->authenticatedUser instanceof User;
+    }
+
+    protected function getCurrentUserFromApiKey(string $apiKey): ?User
+    {
+        return $this->userService->findUserFromAPIKey($apiKey);
     }
 
     public function getAuthenticatedUser(): ?User
@@ -35,21 +42,16 @@ class AuthenticationServiceImpl implements AuthenticationService
             ?? throw new UnauthenticatedUserException();
     }
 
-    public function isAuthenticated(): bool
-    {
-        return $this->authenticatedUser instanceof User;
-    }
-
-    public function mustBeAuthenticatedOrFail() : void
+    public function mustBeAuthenticatedOrFail(): void
     {
         if (!$this->isAuthenticated()) {
             throw new UnauthenticatedUserException();
         }
     }
 
-    protected function getCurrentUserFromApiKey(string $apiKey) : ?User
+    public function isAuthenticated(): bool
     {
-        return $this->userService->findUserFromAPIKey($apiKey);
+        return $this->authenticatedUser instanceof User;
     }
 
 }

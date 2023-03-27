@@ -2,7 +2,9 @@
 
 namespace Domain\Users\Exceptions;
 
-class UserAlreadyExistException extends \LogicException
+use LogicException;
+
+class UserAlreadyExistException extends LogicException
 {
     public function __construct(string $username)
     {

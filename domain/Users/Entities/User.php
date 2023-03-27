@@ -4,6 +4,7 @@ namespace Domain\Users\Entities;
 
 use Carbon\Carbon;
 use Database\Factories\UserFactory;
+use DateTime;
 use Domain\Blog\Entities\Article;
 use Domain\Common\Entities\BaseEntity;
 use Helpers\StringUtils;
@@ -21,13 +22,13 @@ use Ramsey\Uuid\Uuid;
  * @property string $id
  * @property string $username
  * @property string $password
- * @property \DateTime $last_login
+ * @property DateTime $last_login
  * @property string $api_key
- * @property \DateTime $api_key_expire_at
+ * @property DateTime $api_key_expire_at
  *
- * @property \DateTime $updated_at
- * @property \DateTime $created_at
- * @property \DateTime $deleted_at
+ * @property DateTime $updated_at
+ * @property DateTime $created_at
+ * @property DateTime $deleted_at
  *
  * @method static Builder withUsername(string $username)
  * @method static Builder withApiKey(string $apiKey)
@@ -63,24 +64,29 @@ class User extends BaseEntity
 
     /* ------------ ELOQUENT RELATIONSHIPS  ------------ */
 
+    protected static function newFactory(): Factory
+    {
+        return UserFactory::new();
+    }
+
+    /* ------------ ELOQUENT SCOPES  ------------ */
+
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
     }
-
-    /* ------------ ELOQUENT SCOPES  ------------ */
 
     public function scopeWithUsername($query, string $username)
     {
         return $query->where('username', $username);
     }
 
+    /* ------------ HELPERS  ------------ */
+
     public function scopeWithApiKey($query, string $apiKey)
     {
         return $query->where('api_key', $apiKey);
     }
-
-    /* ------------ HELPERS  ------------ */
 
     /**
      * Met à jour la date de connexion de l'utilisateur et génère une nouvelle clef API
@@ -92,11 +98,6 @@ class User extends BaseEntity
         $this->api_key = Uuid::uuid4()->toString();
         $this->api_key_expire_at = now()->addMinutes(self::API_KEY_VALIDITY_MINUTES);
         return $this;
-    }
-
-    public static function getHashedPassword(string $password): string
-    {
-        return hash(self::PASSWORD_HASH_ALGO, $password);
     }
 
     /* ------------ ACCESSOR / MUTATOR ------------ */
@@ -131,6 +132,11 @@ class User extends BaseEntity
         );
     }
 
+    public static function getHashedPassword(string $password): string
+    {
+        return hash(self::PASSWORD_HASH_ALGO, $password);
+    }
+
     protected function lastLogin(): Attribute
     {
         return Attribute::make(
@@ -138,16 +144,12 @@ class User extends BaseEntity
         );
     }
 
+    /* ------------ FACTORY  ------------ */
+
     protected function apiKeyExpireAt(): Attribute
     {
         return Attribute::make(
             get: fn($value) => $value === null ? null : (new Carbon($value))->format(DATE_RFC3339)
         );
-    }
-
-    /* ------------ FACTORY  ------------ */
-    protected static function newFactory(): Factory
-    {
-        return UserFactory::new();
     }
 }

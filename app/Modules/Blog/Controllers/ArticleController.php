@@ -16,6 +16,8 @@ use Domain\Blog\ValueObjects\Status;
 use Domain\Common\Services\Interfaces\AuthenticationService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use InvalidArgumentException;
+use LogicException;
 
 class ArticleController extends BaseAPIController
 {
@@ -24,9 +26,11 @@ class ArticleController extends BaseAPIController
     private const DEFAULT_PER_PAGE_RESULT = 20;
 
     public function __construct(
-        protected ArticleService $articleService,
+        protected ArticleService        $articleService,
         protected AuthenticationService $authenticationService
-    ){}
+    )
+    {
+    }
 
     /**
      * @GET : /articles
@@ -76,7 +80,7 @@ class ArticleController extends BaseAPIController
     {
         try {
             $article = new Article($request->validated());
-        } catch (\InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
 
@@ -100,7 +104,7 @@ class ArticleController extends BaseAPIController
     {
         try {
             $futurArticle = new Article($request->validated());
-        } catch (\InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
 
@@ -108,7 +112,7 @@ class ArticleController extends BaseAPIController
             return new ArticleResource(
                 $this->articleService->updateArticle($futurArticle, $article)
             );
-        } catch (\LogicException $exception) {
+        } catch (LogicException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
     }
@@ -146,7 +150,7 @@ class ArticleController extends BaseAPIController
             return new ArticleResource(
                 $this->articleService->publish($article)
             );
-        } catch (\LogicException $exception) {
+        } catch (LogicException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
     }
@@ -164,7 +168,7 @@ class ArticleController extends BaseAPIController
             return new ArticleResource(
                 $this->articleService->draft($article)
             );
-        } catch (\LogicException $exception) {
+        } catch (LogicException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
     }

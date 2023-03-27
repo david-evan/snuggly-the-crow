@@ -13,12 +13,16 @@ use Domain\Users\Entities\User;
 use Domain\Users\Services\Interfaces\UserService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use InvalidArgumentException;
+use LogicException;
 
 class UserController extends BaseAPIController
 {
     public function __construct(
         protected UserService $userService
-    ){}
+    )
+    {
+    }
 
     /**
      * @GET /users/
@@ -48,7 +52,7 @@ class UserController extends BaseAPIController
             return new AuthenticatedUserResource(
                 $this->userService->createUser($username, $password)
             );
-        } catch (\LogicException|\InvalidArgumentException $exception) {
+        } catch (LogicException|InvalidArgumentException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
     }
@@ -69,7 +73,7 @@ class UserController extends BaseAPIController
             return new AuthenticatedUserResource(
                 $this->userService->login($username, $password)
             );
-        } catch (\LogicException|\InvalidArgumentException $exception) {
+        } catch (LogicException|InvalidArgumentException $exception) {
             throw new BadRequestException($exception->getMessage());
         }
     }

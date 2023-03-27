@@ -2,6 +2,7 @@
 
 namespace Domain\Blog\Services\Implementations;
 
+use DateTime;
 use Domain\Blog\Entities\Article;
 use Domain\Blog\Exceptions\ArticleAlreadyDraftException;
 use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
@@ -44,7 +45,7 @@ class ArticleServiceImpl implements ArticleService
         $articleToUpdate->content = $futurArticle->content ?? $articleToUpdate->content;
         $articleToUpdate->status = $futurArticle->status ?? $articleToUpdate->status;
 
-        if ($futurArticle->published_at instanceof \DateTime) {
+        if ($futurArticle->published_at instanceof DateTime) {
             $articleToUpdate->published_at = $futurArticle->published_at;
         }
 

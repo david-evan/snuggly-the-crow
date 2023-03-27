@@ -3,7 +3,6 @@
 namespace App\Modules\Blog\Resources\JSON;
 
 use App\Modules\Users\Resources\JSON\UserResource;
-
 use Domain\Users\Entities\User;
 use Illuminate\Http\Request;
 

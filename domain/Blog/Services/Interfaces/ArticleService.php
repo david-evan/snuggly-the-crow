@@ -9,6 +9,7 @@ use Domain\Blog\ValueObjects\Status;
 use Domain\Users\Entities\User;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
+use InvalidArgumentException;
 
 interface ArticleService
 {
@@ -16,7 +17,7 @@ interface ArticleService
      * @param Article $article
      * @param User $user
      * @return Article
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function createArticleForUser(Article $article, User $user): Article;
 
@@ -31,7 +32,7 @@ interface ArticleService
      * @param Article $futurArticle
      * @param Article $articleToUpdate
      * @return Article
-     * @throws  \InvalidArgumentException
+     * @throws  InvalidArgumentException
      * @throws CannotUpdatePublishedArticleException
      */
     public function updateArticle(Article $futurArticle, Article $articleToUpdate): Article;

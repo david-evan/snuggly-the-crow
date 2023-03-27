@@ -3,6 +3,8 @@
 namespace App\Modules\Common\Controllers;
 
 use App\Library\SDK\Definitions\HttpCode;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +15,7 @@ class WelcomeController extends BaseAPIController
      * Welcome message
      * @param Request $request
      * @param Router $router
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(Request $request, Router $router)
     {
@@ -28,7 +30,7 @@ class WelcomeController extends BaseAPIController
         try {
             DB::connection()->getPDO();
             $dbConnected = true;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $dbConnected = false;
             $healthcheck = 'KO';
         }

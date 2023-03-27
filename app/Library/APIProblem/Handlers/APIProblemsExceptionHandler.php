@@ -7,6 +7,10 @@ namespace App\Library\APIProblem\Handlers;
 use App\Library\APIProblem\Interfaces\RenderableException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use ReflectionClass;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class APIProblemsExceptionHandler extends Handler
@@ -28,9 +32,9 @@ class APIProblemsExceptionHandler extends Handler
 
     /**
      * Render an exception into an HTTP response.
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Throwable $exception
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @return JsonResponse|\Illuminate\Http\Response|Response
      * @throws Throwable
      */
     public function render($request, Throwable $exception)
@@ -57,8 +61,8 @@ class APIProblemsExceptionHandler extends Handler
      * @param Throwable $exception
      * @return string
      */
-    protected function getExceptionClassName(\Throwable $exception): string
+    protected function getExceptionClassName(Throwable $exception): string
     {
-        return (new \ReflectionClass($exception))->getName();
+        return (new ReflectionClass($exception))->getName();
     }
 }
