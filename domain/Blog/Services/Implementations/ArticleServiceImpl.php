@@ -3,6 +3,7 @@
 namespace Domain\Blog\Services\Implementations;
 
 use Domain\Blog\Entities\Article;
+use Domain\Blog\Exceptions\ArticleAlreadyDraftException;
 use Domain\Blog\Exceptions\ArticleAlreadyPublishedException;
 use Domain\Blog\Exceptions\CannotUpdatePublishedArticleException;
 use Domain\Blog\Services\Interfaces\ArticleService;
@@ -68,7 +69,7 @@ class ArticleServiceImpl implements ArticleService
     public function draft(Article $article): Article
     {
         if ($article->isDraft()) {
-            throw new ArticleAlreadyPublishedException($article);
+            throw new ArticleAlreadyDraftException($article);
         }
 
         $article->status = Status::DRAFT;
