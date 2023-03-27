@@ -17,7 +17,10 @@ class AuthenticationServiceImpl implements AuthenticationService
 
     public function authenticateFromAPIKey(string $apiKey) : bool
     {
-        $this->authenticatedUser = $this->getCurrentUserFromApiKey($apiKey);
+        $user =  $this->getCurrentUserFromApiKey($apiKey);
+        if (now()->lessThanOrEqualTo($user->api_key_expire_at)) {
+            $this->authenticatedUser = $user;
+        }
         return $this->authenticatedUser instanceof User;
     }
 
