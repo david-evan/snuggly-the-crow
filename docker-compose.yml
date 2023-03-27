@@ -3,7 +3,14 @@ services:
     # Serveur PHP
     php:
         build: ./
+        depends_on:
+            - postgres-db
         ports:
             - 7010:8000
-        volumes:
-            - ./:/app
+
+    postgres-db:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}

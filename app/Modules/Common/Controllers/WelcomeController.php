@@ -35,6 +35,7 @@ class WelcomeController extends BaseAPIController
 
         return response()->json([
             'appName' => config('app.name'),
+            'apiVersion' => config('app.version'),
             'phpVersion' => phpversion(),
             'webServer' => $request->server('SERVER_SOFTWARE'),
             'databaseConnected' => $dbConnected,
