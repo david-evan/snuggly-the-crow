@@ -1,0 +1,512 @@
+{
+	"info": {
+		"_postman_id": "3e7509bb-2732-43d7-9fb5-5baacddf543a",
+		"name": "SNUGGLY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5776341"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "AUTHENTICATION - LOGIN",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"snuggly\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/auth/login",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "STORE USER",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"ashen_one\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/users/",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL USERS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/users",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE USER",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/users/{user}",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"users",
+								"{user}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BLOG",
+			"item": [
+				{
+					"name": "STORE ARTICLE",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"Mon premier Article\",\r\n    \"content\" : \"Test de contenu\",\r\n    \"status\" : \"draft\",\r\n    \"published_at\" : \"2023-04-20T12:52:36+00:01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ARTICLE",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"Test de modification\",\r\n    \"content\" : \"Test\",\r\n    \"status\" : \"published\",\r\n    \"published_at\" : \"2022-01-26T13:43:55+00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles/{article}",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles",
+								"{article}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ONE ARTICLE",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles/{article}",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles",
+								"{article}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DESTROY ARTICLE",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles/{article}",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles",
+								"{article}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL ARTICLES",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles?size=10&status=draft",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "draft"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SET ARTICLE AS PUBLISHED",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles/{article}/publish",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles",
+								"{article}",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SET ARTICLE AS DRAFT",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles/{articles}/draft",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles",
+								"{articles}",
+								"draft"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL TRASHED ARTICLES",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{stc_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{stc_host}}/{{stc_version}}/articles/trashed",
+							"host": [
+								"{{stc_host}}"
+							],
+							"path": [
+								"{{stc_version}}",
+								"articles",
+								"trashed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WELCOME / MONITOR",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{stc_host}}/",
+					"host": [
+						"{{stc_host}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

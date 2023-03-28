@@ -70,6 +70,7 @@ php artisan --coverage
 # celui-ci est exclu du git et vient se placer en haut de l'arborescence.
 php artisan --coverage-html _coverage-report
 ```
+
 <br>
 
 ---
@@ -128,6 +129,16 @@ utilisateur par défaut existe et est automatiquement créé à l'aide des seede
 construction avec le login `snuggly` et le mot de passe `password` (très sécurisé tout ça!). Il va de soi que ce
 comportement devrait être modifié en production.
 
+### API problems
+
+L'application utilise des modèles d'erreur conforme à la [RFC7807](https://www.rfc-editor.org/rfc/rfc7807). Une
+documentation spéciale est disponible (`docs/api-problems.md`) pour détailler le fonctionnement de l'implémentation.
+
+### Logs
+
+Si nécessaire, les logs de l'application peuvent être trouvés dans le dossier : `/storage/logs`.
+> Si nécessaire, attribuer des droits 755 sur le dossier `/storage`.
+
 ## Déploiement en production
 
 **Théoriquement**, l'application pourrait être actuellement déployée en production par simple modification de quelques
@@ -138,29 +149,29 @@ En pratique, plusieurs points devraient être améliorés afin d'améliorer la s
 
 ## Todo
 
-Au-delà de l'aspect fonctionnel, la liste ci-après contient plusieurs points d'amélioration (non ordonnés) que j'ai noté au cours du
-développement : 
-
+Au-delà de l'aspect fonctionnel, la liste ci-après contient plusieurs points d'amélioration (non ordonnés) que j'ai noté
+au cours du
+développement :
 
 - Renommer la route des articles "trashed" pour la rendre plus explicite.
-- Authentification : Améliorer en utilisant plutôt un service d'authentification tiers (ex : Auth0, KeyCloack ou autre IdP compatible OAuth / OIDC).
+- Authentification : Améliorer en utilisant plutôt un service d'authentification tiers (ex : Auth0, KeyCloack ou autre
+  IdP compatible OAuth / OIDC).
 - Amélioration du système pour exploitation de Laravel sanctum ou du système d'authentification.
 - Ajouter une gestion de droits (via modification des `Requests`).
 - Ajouter une gestion du nombre de tentatives de connexion avec alerting.
 - Ajout des pipelines CI pour lancer les TA automatiquement en fonction du workflow.
 - Ajouter de la recherche sur les dates (voir documentation API format).
 - Filter les articles en fonction de l'auteur.
-- Améliorer l'approche DDD : 
-  - valueObject pour l'API Key .
-  - Utilisation des Repository (à débattre).
-  - Délier le "Model eloquent" de l'entité business (via DTO ?).
+- Améliorer l'approche DDD :
+    - valueObject pour l'API Key .
+    - Utilisation des Repository (à débattre).
+    - Délier le "Model eloquent" de l'entité business (via DTO ?).
 - Améliorer performance avec du cache redis / memcache.
-- Refactoriser les tests d'intégration et les améliorer pour verifier les formats d'E/S et les ajouter des tests d'échec pour valider les formats d'erreur.
-
+- Refactoriser les tests d'intégration et les améliorer pour verifier les formats d'E/S et les ajouter des tests d'échec
+  pour valider les formats d'erreur.
 
 ## Un peu de lecture ...
 
 - https://laravel.com/docs/10.x/
 - https://www.mongodb.com/compatibility/mongodb-laravel-intergration
 - https://lorisleiva.com/conciliating-laravel-and-ddd-part-2
- 
