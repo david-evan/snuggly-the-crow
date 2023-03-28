@@ -360,7 +360,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{stc_host}}/{{stc_version}}/articles?size=10&status=draft",
+							"raw": "{{stc_host}}/{{stc_version}}/articles?perPage=10&status=draft",
 							"host": [
 								"{{stc_host}}"
 							],
@@ -370,7 +370,7 @@
 							],
 							"query": [
 								{
-									"key": "size",
+									"key": "perPage",
 									"value": "10"
 								},
 								{
