@@ -13,7 +13,29 @@ Le PoC "Snuggly The Crow" est une application de gestion d'article de blog. Sa c
 La couche data exploite l'ORM Eloquent et est compatible avec les principaux systèmes de stockage de données (SQL ou
 NoSQL).
 
-# Table of contents
+## Table of contents
+
+- [Quick-start](#quick-start)
+    * [Requirement :](#requirement--)
+    * [Démarrage de l'application](#d-marrage-de-l-application)
+        + [Local](#local)
+        + [Docker](#docker)
+    * [Lancement des tests unitaires](#lancement-des-tests-unitaires)
+- [Configuration avancée](#configuration-avanc-e)
+    * [Fichiers de configuration](#fichiers-de-configuration)
+    * [Version API](#version-api)
+    * [Base de données](#base-de-donn-es)
+- [Utilisation de l'application](#utilisation-de-l-application)
+    * [Documentation](#documentation)
+    * [Authentification](#authentification)
+    * [Utilisateur par défaut](#utilisateur-par-d-faut)
+    * [API problems](#api-problems)
+    * [Logs](#logs)
+- [Code Architecture](#code-architecture)
+    * [Principes de conception](#principes-de-conception)
+- [Déploiement en production](#d-ploiement-en-production)
+- [Todo](#todo)
+- [Un peu de lecture ...](#un-peu-de-lecture-)
 
 ## Quick-start
 
@@ -22,7 +44,7 @@ NoSQL).
 - Docker (à jour)
   ou
 - PHP 8.2 (CLI)
-- Composer
+- Composer (À jour -> v2.5.5 OK)
 
 ### Démarrage de l'application
 
@@ -47,6 +69,22 @@ php artisan serve --port=7010
 ```shell
 app-start-docker
 # Par défaut, l'application démarrera sur le port 7010. Il est possible de modifier ce comportement en modifiant le docker-compose.
+```
+
+#### Step by step
+
+L'application fonctionne comme n'importe quelle application Laravel habituelle. Il est possible de réaliser
+l'enchainement des commandes suivantes pour démarrer l'application sans passer par les scripts automatisés :
+
+```shell
+# Installation des vendors
+composer install
+# Création de la clef laravel
+php artisan key:generate
+# Création de la base de données + migration + seed data
+php artisan migrate --seed
+# Lancement du serveur web (le port peut être modifié). Peut être ignoré si lancé dans un ngnix ou un apache
+php artisan serve --port=7010
 ```
 
 ### Lancement des tests unitaires
@@ -93,7 +131,6 @@ faire ainsi tourner plusieurs versions de l'API pour garantir la rétrocompatibi
 
 Afin de simplifier les développements et d'éviter d'imposer des dépendances fortes pour les développeurs, en local,
 l'application exploite une base de données SQLite, qui ne devrait, cela va de soi, ne pas être utilisé en production.
-La configuration docker s'appuie quant à elle sur une base PostgreSQL.
 
 Il n'existe actuellement aucune dépendance au système de stockage. Il est possible de modifier la configuration pour
 exploiter n'importe quel système de stockage de données persistant, y compris du noSQL (Dans ce cas, l'ORM Eloquent doit
@@ -139,6 +176,41 @@ documentation spéciale est disponible (`docs/api-problems.md`) pour détailler 
 Si nécessaire, les logs de l'application peuvent être trouvés dans le dossier : `/storage/logs`.
 > Si nécessaire, attribuer des droits 755 sur le dossier `/storage`.
 
+## Code Architecture
+
+### Principes de conception
+
+Une conception "DDD" avec Laravel peut vite s'avérer difficile à cause de la forte relation entre les Models éloquents
+et les Entities au sens DDD.
+Il n'a pas été retenu d'implémenter la chaine complète (Repositories - DTO etc...) afin de ne pas alourdir inutilement
+le code.
+
+Je cite ici des règles sur lesquelles je me suis appuyé pour la conception :
+
+> **Rule A: Keep focus on the domain of the application.**<br> Without this we lose the very essence of DDD. Our model
+> objects need to be inline with our domain and need to follow the Ubiquitous Language of the project.
+> <br><br>**Rule B: Stay true to the framework.** <br>Fighting a framework is exhausting, not scalable and pointless. We
+> want it to be easy to upgrade to the next versions. We want not only to have access to the entire framework's goodness
+> but also to discretely leverage its power inside our domain.
+> <br><br>**Rule C: Keep it simple.** <br>It is somewhat linked to the previous rule but we do not want to create and
+> inject dozens of classes when User::find(1) or config('app.name') suffice. Additionally, we do not want to maintain
+> two
+> versions of our model objects: one that our domain understands and one that Laravel understands.
+
+*Source: https://lorisleiva.com/conciliating-laravel-and-ddd*
+
+Aussi, il est possible d'identifier deux grands ensemble dans l'application :
+
+- `/app` : Qui s'occupe uniquement de récupérer les requêtes / données associées, de lancer les actions métiers associés
+  et de transmettre les réponses.<br><br>
+- `/domain` : Qui contient l'intégralité de la logique métier et aucune dépendance vers l'application (cette couche est
+  agnostic de la couche applicative). De par la spécificité d'Eloquent, la partie Data est incluse dans cette couche.
+  <br><br>
+  Un soin a toutefois été apportée pour à ne pas introduire de couplage fort entre la couche Domain et les Data . Il est
+  facilement envisageable de l'extraire, cependant cette extraction nécessite d'introduire plusieurs objets
+  intermédiaires (Converters, DTO, Repositories) et ne semble pas justifée pour une application de cette taille, au
+  risque d'entraver son évolutivité en la rendant inutilement complexe.
+
 ## Déploiement en production
 
 **Théoriquement**, l'application pourrait être actuellement déployée en production par simple modification de quelques
@@ -159,7 +231,7 @@ développement :
 - Amélioration du système pour exploitation de Laravel sanctum ou du système d'authentification.
 - Ajouter une gestion de droits (via modification des `Requests`).
 - Ajouter une gestion du nombre de tentatives de connexion avec alerting.
-- Ajout des pipelines CI pour lancer les TA automatiquement en fonction du workflow.
+- Ajout des pipelines CI pour lancer les TA / l'analyse statique automatiquement en fonction du workflow.
 - Ajouter de la recherche sur les dates (voir documentation API format).
 - Filter les articles en fonction de l'auteur.
 - Améliorer l'approche DDD :
@@ -169,6 +241,8 @@ développement :
 - Améliorer performance avec du cache redis / memcache.
 - Refactoriser les tests d'intégration et les améliorer pour verifier les formats d'E/S et les ajouter des tests d'échec
   pour valider les formats d'erreur.
+- Améliorer la documentation swagger. On n'en fait jamais trop ! Ajouter des exemples plus parlants.
+- Refactoriser la partie docker et le docker compose pour ajouter le support d'une base de données
 
 ## Un peu de lecture ...
 

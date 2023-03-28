@@ -2,8 +2,9 @@
 
 namespace App\Console;
 
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,6 +22,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        // Register routes if needed
+    
     }
 }

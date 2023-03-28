@@ -157,7 +157,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 items:
                   $ref: '#/components/schemas/PaginatedArticles'
 
@@ -184,7 +183,14 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
     get:
       tags:
         - BLOG
@@ -201,7 +207,14 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
     delete:
       tags:
         - BLOG
@@ -217,8 +230,6 @@ paths:
       responses:
         '204':
           description: Successful response
-          content:
-            application/json: {}
   /v1/articles/{article}/publish:
     patch:
       tags:
@@ -238,7 +249,21 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+        '400':
+          description: Error - Article already published
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/400_ArticleAlreadyPublished'
   /v1/articles/{articles}/draft:
     patch:
       tags:
@@ -258,7 +283,21 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+        '400':
+          description: Error - Article already draft
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/400_ArticleAlreadyPublished'
   /v1/articles/trashed:
     get:
       tags:
@@ -270,7 +309,14 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TrashedArticle'
   /:
     get:
       tags:
@@ -282,7 +328,10 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Monitor'
 components:
   securitySchemes:
     apikeyAuth:
@@ -291,7 +340,32 @@ components:
     noauthAuth:
       type: http
       scheme: noauth
+
+
+
   schemas:
+    Monitor:
+      type: object
+      properties:
+        appName:
+          type: string
+        apiVersion:
+          type: string
+        phpVersion:
+          type: string
+        webServer:
+          type: string
+        databaseConnected:
+          type: boolean
+        dbConnectionName:
+          type: string
+        healthcheck:
+          type: string
+          format: enum [OK, KO]
+        routes:
+          type: array
+          items:
+            type: string
 
     Article:
       type: object
@@ -313,7 +387,6 @@ components:
           pattern: "Y-m-dTH:i:sP"
           example: 2023-12-25T00:00:00+01:00
         author:
-          type: object
           items:
             $ref: '#/components/schemas/Author'
     TrashedArticle:
@@ -348,7 +421,6 @@ components:
           pattern: "Y-m-dTH:i:sP"
           example: 2023-12-25T00:00:00+01:00
         author:
-          type: object
           items:
             $ref: '#/components/schemas/Author'
     User:
