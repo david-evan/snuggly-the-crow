@@ -30,6 +30,7 @@ class WelcomeController extends BaseAPIController
         try {
             DB::connection()->getPDO();
             $dbConnected = true;
+            $dbConnectionName = DB::connection()->getName();
         } catch (Exception $exception) {
             $dbConnected = false;
             $healthcheck = 'KO';
@@ -41,6 +42,7 @@ class WelcomeController extends BaseAPIController
             'phpVersion' => phpversion(),
             'webServer' => $request->server('SERVER_SOFTWARE'),
             'databaseConnected' => $dbConnected,
+            'dbConnectionName' => $dbConnectionName ?? null,
             'healthcheck' => $healthcheck,
             'routes' => $routes
         ], $dbConnected ? HttpCode::HTTP_OK : HttpCode::HTTP_BAD_GATEWAY);

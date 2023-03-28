@@ -16,8 +16,9 @@ RUN bash dependencies.sh
 
 # Installation des vendors et des migrations DB
 RUN composer install
+COPY .env.docker .env
 RUN php artisan key:generate
-CMD php artisan migrate --force --seed
+RUN php artisan migrate --force --seed
 
 # Lancement du serveur de démo
 CMD php artisan serve --host=0.0.0.0 --port=8000

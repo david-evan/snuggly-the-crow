@@ -3,4 +3,4 @@ cp .env.local .env
 
 composer install -n
 php artisan key:generate
-php artisan migrate:fresh --seed --force
+php artisan migrate:fresh --force --seed
