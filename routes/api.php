@@ -21,7 +21,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('api.welcome');
 
 Route::prefix(config('app.version'))->group(function () {
 
-    Route::post('users/login', [UserController::class, 'login'])->name('users.login');
+    Route::post('auth/login', [UserController::class, 'login'])->name('users.login');
 
     Route::middleware([MustBeAuthenticated::class])->group(function () {
 
