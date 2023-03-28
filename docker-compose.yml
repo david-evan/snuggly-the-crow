@@ -1,0 +1,7 @@
+services:
+
+    # Serveur PHP
+    php:
+        build: ./
+        ports:
+            - 7010:8000
