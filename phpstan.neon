@@ -1,0 +1,12 @@
+parameters:
+	level: 0
+	paths:
+		- app
+		- domain
+		- tests
+
+services:
+    -
+        class: Tests\Architecture\DDDBasicComplianceArchTest
+        tags:
+            - phpat.test
